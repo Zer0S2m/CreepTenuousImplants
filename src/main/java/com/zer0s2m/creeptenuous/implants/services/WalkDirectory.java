@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -33,6 +34,18 @@ public interface WalkDirectory {
                     )));
         }
         return attached;
+    }
+
+    /**
+     * Get the name of all file objects from their path
+     * @param attached file object information
+     * @return file system object names
+     */
+    static @NotNull List<String> getNamesFileSystemObject(@NotNull List<ContainerInfoFileSystemObject> attached) {
+        return attached
+                .stream()
+                .map(attach -> attach.source().getFileName().toString())
+                .collect(Collectors.toList());
     }
 
 }
