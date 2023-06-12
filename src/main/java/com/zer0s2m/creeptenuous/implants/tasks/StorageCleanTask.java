@@ -35,7 +35,7 @@ public class StorageCleanTask {
         this.rootPath = rootPath;
     }
 
-    @Scheduled(fixedRate = 7000)
+    @Scheduled(cron = "${cron.schedule-clean-storage}")
     private void storageCleanTask() throws IOException {
         List<ContainerInfoFileSystemObject> attached = WalkDirectory.walkDirectory(rootPath.getRootPath());
         List<String> namesFileSystemObject = WalkDirectory.getNamesFileSystemObject(attached);
