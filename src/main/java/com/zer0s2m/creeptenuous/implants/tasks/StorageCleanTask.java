@@ -36,7 +36,7 @@ public class StorageCleanTask {
     }
 
     @Scheduled(cron = "${cron.schedule-clean-storage}")
-    private void storageCleanTask() throws IOException {
+    public void storageCleanTask() throws IOException {
         List<ContainerInfoFileSystemObject> attached = WalkDirectory.walkDirectory(rootPath.getRootPath());
         List<String> namesFileSystemObject = WalkDirectory.getNamesFileSystemObject(attached);
         List<DirectoryRedis> directoryRedis = serviceResourcesRedis.getResourceDirectoryRedis(namesFileSystemObject);
