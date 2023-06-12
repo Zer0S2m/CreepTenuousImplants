@@ -47,8 +47,8 @@ public class StorageCleanTask {
         logger.info("Root path [{}]", rootPath.getRootPath().toString());
         logger.info("Count directories in redis [{}]", directoryRedis.size());
         logger.info("Count files in redis [{}]", fileRedis.size());
-        logger.info("Count file system object [{}]", namesFileSystemObject.size());
-        logger.info("Count unused file system object [{}]", unusedAttached.size());
+        logger.info("Count file system object [{}]", namesFileSystemObject.size() - 1);
+        logger.info("Count unused file system object [{}]", unusedAttached.size() - 1);
 
         serviceStorageClean.clean(unusedAttached);
     }
