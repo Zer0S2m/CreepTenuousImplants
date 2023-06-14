@@ -35,7 +35,7 @@ public class RedisCleanTask {
         this.rootPath = rootPath;
     }
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(cron = "${cron.schedule-clean-redis}")
     public void clean() throws IOException {
         List<ContainerInfoFileSystemObject> attached = WalkDirectory.walkDirectory(rootPath.getRootPath());
         List<String> namesFileSystemObject = WalkDirectory.getNamesFileSystemObject(attached);
