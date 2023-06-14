@@ -48,4 +48,14 @@ public interface ServiceResourcesRedis {
             List<DirectoryRedis> entitiesDirectories, List<FileRedis> entitiesFiles,
             List<ContainerInfoFileSystemObject> attached);
 
+    /**
+     * Get unused redis objects by filtering from object file system
+     * @param entitiesDirectories must not be {@literal null} nor must it contain {@literal null}.
+     * @param entitiesFiles must not be {@literal null} nor must it contain {@literal null}.
+     * @param attached name of file system objects
+     * @return filtered ids on object redis
+     */
+    List<String> getUnusedObjectRedis(
+            List<DirectoryRedis> entitiesDirectories, List<FileRedis> entitiesFiles, List<String> attached);
+
 }

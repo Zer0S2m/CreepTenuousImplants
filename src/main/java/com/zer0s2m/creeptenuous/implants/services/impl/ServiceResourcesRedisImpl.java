@@ -115,4 +115,30 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
         return systemNames;
     }
 
+    /**
+     * Get unused redis objects by filtering from object file system
+     * @param entitiesDirectories must not be {@literal null} nor must it contain {@literal null}.
+     * @param entitiesFiles must not be {@literal null} nor must it contain {@literal null}.
+     * @param attached name of file system objects
+     * @return filtered ids on object redis
+     */
+    public List<String> getUnusedObjectRedis(
+            @NotNull List<DirectoryRedis> entitiesDirectories, @NotNull List<FileRedis> entitiesFiles,
+            List<String> attached) {
+        List<String> ids = new ArrayList<>();
+
+        entitiesDirectories.forEach(entity -> {
+            if (!attached.contains(entity.getSystemName())) {
+                ids.add(entity.getSystemName());
+            }
+        });
+        entitiesFiles.forEach(entity -> {
+            if (!attached.contains(entity.getSystemName())) {
+                ids.add(entity.getSystemName());
+            }
+        });
+
+        return ids;
+    }
+
 }
