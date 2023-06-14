@@ -26,6 +26,18 @@ public interface ServiceResourcesRedis {
     List<FileRedis> getResourceFileRedis(List<String> ids);
 
     /**
+     * Get all information about directories
+     * @return information directories
+     */
+    List<DirectoryRedis> getResourceDirectoryRedis();
+
+    /**
+     * Get all information about files
+     * @return information files
+     */
+    List<FileRedis> getResourceFileRedis();
+
+    /**
      * Get unused directories by filtering from redis
      * @param entitiesDirectories must not be {@literal null} nor must it contain {@literal null}.
      * @param entitiesFiles must not be {@literal null} nor must it contain {@literal null}.
@@ -35,5 +47,15 @@ public interface ServiceResourcesRedis {
     List<ContainerInfoFileSystemObject> getUnusedObjectFileSystem(
             List<DirectoryRedis> entitiesDirectories, List<FileRedis> entitiesFiles,
             List<ContainerInfoFileSystemObject> attached);
+
+    /**
+     * Get unused redis objects by filtering from object file system
+     * @param entitiesDirectories must not be {@literal null} nor must it contain {@literal null}.
+     * @param entitiesFiles must not be {@literal null} nor must it contain {@literal null}.
+     * @param attached name of file system objects
+     * @return filtered ids on object redis
+     */
+    List<String> getUnusedObjectRedis(
+            List<DirectoryRedis> entitiesDirectories, List<FileRedis> entitiesFiles, List<String> attached);
 
 }
