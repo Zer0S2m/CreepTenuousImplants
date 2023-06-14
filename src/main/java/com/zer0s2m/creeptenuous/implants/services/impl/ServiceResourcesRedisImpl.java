@@ -66,6 +66,22 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
     }
 
     /**
+     * Get all information about directories
+     * @return information directories
+     */
+    public List<DirectoryRedis> getResourceDirectoryRedis() {
+        return getResources(directoryRedisRepository.findAll());
+    }
+
+    /**
+     * Get all information about files
+     * @return information files
+     */
+    public List<FileRedis> getResourceFileRedis() {
+        return getResources(fileRedisRepository.findAll());
+    }
+
+    /**
      * Get unused directories by filtering from redis
      * @param entitiesDirectories must not be {@literal null} nor must it contain {@literal null}.
      * @param entitiesFiles must not be {@literal null} nor must it contain {@literal null}.

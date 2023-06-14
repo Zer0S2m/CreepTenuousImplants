@@ -26,6 +26,18 @@ public interface ServiceResourcesRedis {
     List<FileRedis> getResourceFileRedis(List<String> ids);
 
     /**
+     * Get all information about directories
+     * @return information directories
+     */
+    List<DirectoryRedis> getResourceDirectoryRedis();
+
+    /**
+     * Get all information about files
+     * @return information files
+     */
+    List<FileRedis> getResourceFileRedis();
+
+    /**
      * Get unused directories by filtering from redis
      * @param entitiesDirectories must not be {@literal null} nor must it contain {@literal null}.
      * @param entitiesFiles must not be {@literal null} nor must it contain {@literal null}.
