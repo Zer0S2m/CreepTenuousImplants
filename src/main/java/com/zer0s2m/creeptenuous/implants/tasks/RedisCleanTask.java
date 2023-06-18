@@ -4,6 +4,7 @@ import com.zer0s2m.creeptenuous.implants.containers.ContainerInfoFileSystemObjec
 import com.zer0s2m.creeptenuous.implants.core.RootPath;
 import com.zer0s2m.creeptenuous.implants.redis.models.DirectoryRedis;
 import com.zer0s2m.creeptenuous.implants.redis.models.FileRedis;
+import com.zer0s2m.creeptenuous.implants.redis.models.RightsUserRedis;
 import com.zer0s2m.creeptenuous.implants.services.ServiceRedisClean;
 import com.zer0s2m.creeptenuous.implants.services.ServiceResourcesRedis;
 import com.zer0s2m.creeptenuous.implants.services.WalkDirectory;
@@ -41,16 +42,23 @@ public class RedisCleanTask {
         List<String> namesFileSystemObject = WalkDirectory.getNamesFileSystemObject(attached);
         List<DirectoryRedis> directoryRedis = serviceResourcesRedis.getResourceDirectoryRedis();
         List<FileRedis> fileRedis = serviceResourcesRedis.getResourceFileRedis();
+        List<RightsUserRedis> rightsUserRedis = serviceResourcesRedis.getResourceRightsUserRedis();
 
         logger.info("Root path [{}]", rootPath.getRootPath().toString());
+        logger.info("Count user rights in redis [{}]", rightsUserRedis.size());
         logger.info("Count directories in redis [{}]", directoryRedis.size());
         logger.info("Count files in redis [{}]", fileRedis.size());
         logger.info("Count file system object [{}]", attached.size() - 1);
 
-        List<String> ids = serviceResourcesRedis.getUnusedObjectRedis(
+        List<String> idsFileSystemObject = serviceResourcesRedis.getUnusedObjectRedis(
                 directoryRedis, fileRedis, namesFileSystemObject);
+        List<String> idsRightsUser = serviceResourcesRedis.getUnusedRightsUser(rightsUserRedis);
 
-        serviceRedisClean.clean(ids);
+        logger.info("Count unused file system object in redis [{}]", idsFileSystemObject.size());
+        logger.info("Count unused user rights in redis [{}]", idsRightsUser.size());
+
+        serviceRedisClean.cleanFileSystemObject(idsFileSystemObject);
+        serviceRedisClean.cleanRightsUser(idsRightsUser);
     }
 
 }
