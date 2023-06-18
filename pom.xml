@@ -10,7 +10,7 @@
   </parent>
   <groupId>com.zer0s2m</groupId>
   <artifactId>CreepTenuousImplants</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <name>CreepTenuousImplants</name>
   <description>CreepTenuousImplants</description>
   <properties>
