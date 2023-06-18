@@ -58,6 +58,7 @@ public class RedisCleanTask {
         logger.info("Count unused user rights in redis [{}]", idsRightsUser.size());
 
         serviceRedisClean.cleanFileSystemObject(idsFileSystemObject);
+        serviceRedisClean.cleanRightsUser(idsRightsUser);
     }
 
 }
