@@ -4,6 +4,7 @@ import com.zer0s2m.creeptenuous.implants.CreepTenuousImplantsApplication;
 import com.zer0s2m.creeptenuous.implants.containers.ContainerInfoFileSystemObject;
 import com.zer0s2m.creeptenuous.implants.redis.models.DirectoryRedis;
 import com.zer0s2m.creeptenuous.implants.redis.models.FileRedis;
+import com.zer0s2m.creeptenuous.implants.redis.models.RightsUserRedis;
 import com.zer0s2m.creeptenuous.implants.redis.repository.DirectoryRedisRepository;
 import com.zer0s2m.creeptenuous.implants.redis.repository.FileRedisRepository;
 import com.zer0s2m.creeptenuous.implants.services.impl.ServiceResourcesRedisImpl;
@@ -32,16 +33,37 @@ public class ServiceResourcesRedisTests {
     private ServiceResourcesRedisImpl serviceResourcesRedis;
 
     @Test
-    public void getResourceDirectoryRedis_success() {
+    public void getResourceDirectoryRedisByParamIds_success() {
         Assertions.assertDoesNotThrow(
                 () -> serviceResourcesRedis.getResourceDirectoryRedis(new ArrayList<>())
         );
     }
 
     @Test
-    public void getResourceFileRedis_success() {
+    public void getResourceFileRedisByParamIds_success() {
         Assertions.assertDoesNotThrow(
                 () -> serviceResourcesRedis.getResourceFileRedis(new ArrayList<>())
+        );
+    }
+
+    @Test
+    public void getResourceRightsUserRedis_success() {
+        Assertions.assertDoesNotThrow(
+                () -> serviceResourcesRedis.getResourceRightsUserRedis()
+        );
+    }
+
+    @Test
+    public void getResourceFileRedisRedis_success() {
+        Assertions.assertDoesNotThrow(
+                () -> serviceResourcesRedis.getResourceFileRedis()
+        );
+    }
+
+    @Test
+    public void getResourceDirectoryRedis_success() {
+        Assertions.assertDoesNotThrow(
+                () -> serviceResourcesRedis.getResourceDirectoryRedis()
         );
     }
 
@@ -68,6 +90,18 @@ public class ServiceResourcesRedisTests {
                 List.of(directoryRedis), List.of(fileRedis), List.of(containerDirectory, containerFile));
 
         Assertions.assertEquals(1, unusedAttached.size());
+    }
+
+    @Test
+    public void getUnusedRightsUser_success() {
+        List<RightsUserRedis> rightsUserRedisList = new ArrayList<>();
+        RightsUserRedis rightsUserRedis = new RightsUserRedis();
+        rightsUserRedis.setSystemName("systemName");
+        rightsUserRedisList.add(rightsUserRedis);
+
+        Assertions.assertDoesNotThrow(
+                () -> serviceResourcesRedis.getUnusedRightsUser(rightsUserRedisList)
+        );
     }
 
 }
