@@ -11,6 +11,6 @@ public interface ServiceRedisClean {
      * Run redis cleanup
      * @param ids must not be {@literal null} nor contain any {@literal null} values.
      */
-    void clean(List<String> ids);
+    void cleanFileSystemObject(List<String> ids);
 
 }

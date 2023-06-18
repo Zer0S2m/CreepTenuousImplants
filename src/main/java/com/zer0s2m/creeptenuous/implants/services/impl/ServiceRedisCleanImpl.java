@@ -29,7 +29,7 @@ public class ServiceRedisCleanImpl implements ServiceRedisClean {
      * Run redis cleanup
      * @param ids must not be {@literal null} nor contain any {@literal null} values.
      */
-    public void clean(List<String> ids) {
+    public void cleanFileSystemObject(List<String> ids) {
         directoryRedisRepository.deleteAllById(ids);
         fileRedisRepository.deleteAllById(ids);
     }

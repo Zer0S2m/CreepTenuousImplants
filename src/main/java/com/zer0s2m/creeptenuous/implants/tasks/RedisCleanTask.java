@@ -50,7 +50,7 @@ public class RedisCleanTask {
         List<String> ids = serviceResourcesRedis.getUnusedObjectRedis(
                 directoryRedis, fileRedis, namesFileSystemObject);
 
-        serviceRedisClean.clean(ids);
+        serviceRedisClean.cleanFileSystemObject(ids);
     }
 
 }
