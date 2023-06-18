@@ -3,6 +3,7 @@ package com.zer0s2m.creeptenuous.implants.services;
 import com.zer0s2m.creeptenuous.implants.containers.ContainerInfoFileSystemObject;
 import com.zer0s2m.creeptenuous.implants.redis.models.DirectoryRedis;
 import com.zer0s2m.creeptenuous.implants.redis.models.FileRedis;
+import com.zer0s2m.creeptenuous.implants.redis.models.RightsUserRedis;
 
 import java.util.List;
 
@@ -57,5 +58,18 @@ public interface ServiceResourcesRedis {
      */
     List<String> getUnusedObjectRedis(
             List<DirectoryRedis> entitiesDirectories, List<FileRedis> entitiesFiles, List<String> attached);
+
+    /**
+     * Get all information about user rights
+     * @return user rights
+     */
+    List<RightsUserRedis> getResourceRightsUserRedis();
+
+    /**
+     * Get unused user right by filtering from redis
+     * @param rightsUserRedis must not be {@literal null} nor must it contain {@literal null}.
+     * @return filtered ids on object redis
+     */
+    List<String> getUnusedRightsUser(List<RightsUserRedis> rightsUserRedis);
 
 }
