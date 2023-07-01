@@ -38,3 +38,7 @@ logs
 
 ### ENV ###
 .env
+
+### INTEGRATION ###
+**/src/main/**/*.pem
+**/src/main/**/*.pub
