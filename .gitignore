@@ -42,3 +42,5 @@ logs
 ### INTEGRATION ###
 **/src/main/**/*.pem
 **/src/main/**/*.pub
+integration-main-system.pem
+!**src/test/**/*.pem
