@@ -11,6 +11,7 @@ import com.zer0s2m.creeptenuous.implants.services.WalkDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +37,7 @@ public class RedisCleanTask {
         this.rootPath = rootPath;
     }
 
+    @Async
     @Scheduled(cron = "${cron.schedule-clean-redis}")
     public void clean() throws IOException {
         List<ContainerInfoFileSystemObject> attached = WalkDirectory.walkDirectory(rootPath.getRootPath());
