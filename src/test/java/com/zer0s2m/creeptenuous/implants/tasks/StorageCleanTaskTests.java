@@ -40,7 +40,7 @@ public class StorageCleanTaskTests {
     }
 
     @Test
-    public void storageCleanTask_success() throws IOException {
+    public void storageCleanTask_success() throws IOException, InterruptedException {
         final String directoryNameTest = "testDirectory";
         final String fileNameTest = "testFile.txt";
 
@@ -49,6 +49,8 @@ public class StorageCleanTaskTests {
 
         Assertions.assertDoesNotThrow(
                 () -> storageCleanTask.storageCleanTask());
+
+        Thread.sleep(150);
 
         Assertions.assertFalse(Files.exists(directoryTest));
         Assertions.assertFalse(Files.exists(testFile));
