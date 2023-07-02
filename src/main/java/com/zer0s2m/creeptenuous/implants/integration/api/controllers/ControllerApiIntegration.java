@@ -1,6 +1,8 @@
 package com.zer0s2m.creeptenuous.implants.integration.api.controllers;
 
+import com.zer0s2m.creeptenuous.implants.integration.services.JwtService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @ConditionalOnExpression("${integration.main-system:false}")
 public class ControllerApiIntegration {
 
-    @PostMapping("/run")
+    private final JwtService jwtService;
+
+    @Autowired
+    public ControllerApiIntegration(JwtService jwtService) {
+        this.jwtService = jwtService;
+    }
+
+    @PostMapping("/run-clean")
     @ResponseStatus(code = HttpStatus.OK)
     public final @NotNull String runCleanStorage() {
+        jwtService.verifyToken("token");
         return "Hello";
     }
 
