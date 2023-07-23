@@ -4,6 +4,7 @@ import com.zer0s2m.creeptenuous.implants.containers.ContainerInfoFileSystemObjec
 import com.zer0s2m.creeptenuous.implants.core.RootPath;
 import com.zer0s2m.creeptenuous.implants.redis.models.DirectoryRedis;
 import com.zer0s2m.creeptenuous.implants.redis.models.FileRedis;
+import com.zer0s2m.creeptenuous.implants.services.ServiceDeletedObjectStatistic;
 import com.zer0s2m.creeptenuous.implants.services.ServiceResourcesRedis;
 import com.zer0s2m.creeptenuous.implants.services.ServiceStorageClean;
 import com.zer0s2m.creeptenuous.implants.services.WalkDirectory;
@@ -26,13 +27,19 @@ public class StorageCleanTask {
 
     private final ServiceResourcesRedis serviceResourcesRedis;
 
+    private final ServiceDeletedObjectStatistic serviceDeletedObjectStatistic;
+
     private final RootPath rootPath;
 
     @Autowired
-    public StorageCleanTask(ServiceStorageClean serviceStorageClean, ServiceResourcesRedis serviceResourcesRedis,
-                            RootPath rootPath) {
+    public StorageCleanTask(
+            ServiceStorageClean serviceStorageClean,
+            ServiceResourcesRedis serviceResourcesRedis,
+            ServiceDeletedObjectStatistic serviceDeletedObjectStatistic,
+            RootPath rootPath) {
         this.serviceStorageClean = serviceStorageClean;
         this.serviceResourcesRedis = serviceResourcesRedis;
+        this.serviceDeletedObjectStatistic = serviceDeletedObjectStatistic;
         this.rootPath = rootPath;
     }
 
@@ -53,6 +60,11 @@ public class StorageCleanTask {
         logger.info("Count unused file system object [{}]", unusedAttached.size() - 1);
 
         serviceStorageClean.clean(unusedAttached);
+
+        if (unusedAttached.size() != 0) {
+            unusedAttached.remove(0);
+            serviceDeletedObjectStatistic.createDeletedObjectStatisticFileStorage(unusedAttached);
+        }
     }
 
 }

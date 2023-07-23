@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.RedisHash;
  */
 @Data
 @RedisHash("directories")
-public class DirectoryRedis {
+public class DirectoryRedis implements BaseRedis {
 
     @Id
     @Column(name = "systemNameDirectory")
