@@ -27,9 +27,52 @@ public class ServiceDeletedObjectStatisticImpl implements ServiceDeletedObjectSt
         this.deletedObjectStatisticRepository = deletedObjectStatisticRepository;
     }
 
+    /**
+     * Generate statistics on deleting hashes of a file object type
+     * @param idsFileSystemObjects system names of file objects
+     * @param typeObjectDeleted type of object to be deleted
+     */
     @Override
-    public void createDeletedObjectStatisticRedis() {
+    public void createDeletedObjectStatisticRedisFileObject(
+            @NotNull List<String> idsFileSystemObjects, TypeObjectDeleted typeObjectDeleted) {
+        Collection<DeletedObjectStatistic> deletedObjectStatistics = new ArrayList<>();
 
+        idsFileSystemObjects.forEach(obj -> {
+            DeletedObjectStatistic newObj = new DeletedObjectStatistic();
+            newObj.setSystemName(obj);
+            newObj.setTypeObject(typeObjectDeleted);
+            deletedObjectStatistics.add(newObj);
+        });
+
+        deletedObjectStatisticRepository.saveAll(deletedObjectStatistics);
+    }
+
+    /**
+     * Generate deleted object statistics for type - user right
+     * @param idsRightsUser must not be {@literal null} nor must it contain {@literal null}.
+     */
+    @Override
+    public void createDeletedObjectStatisticRedisRightUser(@NotNull List<String> idsRightsUser) {
+        Collection<DeletedObjectStatistic> deletedObjectStatistics = new ArrayList<>();
+
+        idsRightsUser.forEach(id -> {
+            String[] splitId = id.split("__");
+            DeletedObjectStatistic newObj;
+
+            if (splitId.length > 1) {
+                newObj = new DeletedObjectStatistic(
+                        splitId[1], TypeObjectDeleted.RIGHT_USER);
+                newObj.setSystemName(splitId[0]);
+            } else {
+                newObj = new DeletedObjectStatistic();
+                newObj.setSystemName(splitId[0]);
+                newObj.setTypeObject(TypeObjectDeleted.RIGHT_USER);
+            }
+
+            deletedObjectStatistics.add(newObj);
+        });
+
+        deletedObjectStatisticRepository.saveAll(deletedObjectStatistics);
     }
 
     /**

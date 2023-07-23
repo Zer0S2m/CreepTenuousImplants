@@ -6,6 +6,7 @@ CREATE DOMAIN type_object_deleted
                          'FILE',
                          'DIRECTORY_REDIS',
                          'FILE_REDIS',
+                         'RIGHT_USER',
                          'UNIDENTIFIED_TYPE'
             ));
 

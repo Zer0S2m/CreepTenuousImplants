@@ -26,11 +26,11 @@ public class DeletedObjectStatistic {
     @Enumerated(EnumType.STRING)
     private TypeObjectDeleted typeObject;
 
-    @Column(name = "system_name")
+    @Column(name = "system_name", columnDefinition = "TEXT DEFAULT 'NO_PATH'")
     private String systemName;
 
-    @Column(name = "system_path")
-    private String systemPath;
+    @Column(name = "system_path", columnDefinition = "TEXT DEFAULT 'NO_PATH'")
+    private String systemPath = "NO_PATH";
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT NOW()", insertable = false)
     private Timestamp createdAt;
@@ -45,6 +45,14 @@ public class DeletedObjectStatistic {
     public DeletedObjectStatistic(String systemName, String systemPath, TypeObjectDeleted typeObject) {
         this.systemName = systemName;
         this.systemPath = systemPath;
+        this.typeObject = typeObject;
+    }
+
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
+    }
+
+    public void setTypeObject(TypeObjectDeleted typeObject) {
         this.typeObject = typeObject;
     }
 

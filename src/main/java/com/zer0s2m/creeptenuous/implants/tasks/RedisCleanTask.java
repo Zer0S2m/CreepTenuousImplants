@@ -2,9 +2,11 @@ package com.zer0s2m.creeptenuous.implants.tasks;
 
 import com.zer0s2m.creeptenuous.implants.containers.ContainerInfoFileSystemObject;
 import com.zer0s2m.creeptenuous.implants.core.RootPath;
+import com.zer0s2m.creeptenuous.implants.enums.TypeObjectDeleted;
 import com.zer0s2m.creeptenuous.implants.redis.models.DirectoryRedis;
 import com.zer0s2m.creeptenuous.implants.redis.models.FileRedis;
 import com.zer0s2m.creeptenuous.implants.redis.models.RightsUserRedis;
+import com.zer0s2m.creeptenuous.implants.services.ServiceDeletedObjectStatistic;
 import com.zer0s2m.creeptenuous.implants.services.ServiceRedisClean;
 import com.zer0s2m.creeptenuous.implants.services.ServiceResourcesRedis;
 import com.zer0s2m.creeptenuous.implants.services.WalkDirectory;
@@ -27,13 +29,19 @@ public class RedisCleanTask {
 
     private final ServiceRedisClean serviceRedisClean;
 
+    private final ServiceDeletedObjectStatistic serviceDeletedObjectStatistic;
+
     private final RootPath rootPath;
 
     @Autowired
-    public RedisCleanTask(ServiceResourcesRedis serviceResourcesRedis, ServiceRedisClean serviceRedisClean,
-                          RootPath rootPath) {
+    public RedisCleanTask(
+            ServiceResourcesRedis serviceResourcesRedis,
+            ServiceRedisClean serviceRedisClean,
+            ServiceDeletedObjectStatistic serviceDeletedObjectStatistic,
+            RootPath rootPath) {
         this.serviceResourcesRedis = serviceResourcesRedis;
         this.serviceRedisClean = serviceRedisClean;
+        this.serviceDeletedObjectStatistic = serviceDeletedObjectStatistic;
         this.rootPath = rootPath;
     }
 
@@ -61,6 +69,14 @@ public class RedisCleanTask {
 
         serviceRedisClean.cleanFileSystemObject(idsFileSystemObject);
         serviceRedisClean.cleanRightsUser(idsRightsUser);
+
+        serviceDeletedObjectStatistic.createDeletedObjectStatisticRedisFileObject(
+                serviceResourcesRedis.getUnusedObjectRedisDirectory(
+                        directoryRedis, namesFileSystemObject), TypeObjectDeleted.DIRECTORY_REDIS);
+        serviceDeletedObjectStatistic.createDeletedObjectStatisticRedisFileObject(
+                serviceResourcesRedis.getUnusedObjectRedisFile(
+                        fileRedis, namesFileSystemObject), TypeObjectDeleted.FILE_REDIS);
+        serviceDeletedObjectStatistic.createDeletedObjectStatisticRedisRightUser(idsRightsUser);
     }
 
 }

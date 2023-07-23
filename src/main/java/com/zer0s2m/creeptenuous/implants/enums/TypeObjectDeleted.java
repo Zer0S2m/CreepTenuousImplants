@@ -26,6 +26,11 @@ public enum TypeObjectDeleted {
     FILE_REDIS,
 
     /**
+     * Object type - the right for the user to interact with file objects
+     */
+    RIGHT_USER,
+
+    /**
      * Unrecognized object type
      */
     UNIDENTIFIED_TYPE
