@@ -1,5 +1,6 @@
 package com.zer0s2m.creeptenuous.implants.services;
 
+import com.zer0s2m.creeptenuous.implants.containers.ContainerDeletedObjectStatistic;
 import com.zer0s2m.creeptenuous.implants.containers.ContainerInfoFileSystemObject;
 import com.zer0s2m.creeptenuous.implants.enums.TypeObjectDeleted;
 
@@ -29,5 +30,11 @@ public interface ServiceDeletedObjectStatistic {
      * @param data data to create
      */
     void createDeletedObjectStatisticFileStorage(List<ContainerInfoFileSystemObject> data);
+
+    /**
+     * Get statistics on deleted objects
+     * @return statistics
+     */
+    List<ContainerDeletedObjectStatistic> getStatistics();
 
 }

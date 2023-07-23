@@ -1,5 +1,6 @@
 package com.zer0s2m.creeptenuous.implants.services.impl;
 
+import com.zer0s2m.creeptenuous.implants.containers.ContainerDeletedObjectStatistic;
 import com.zer0s2m.creeptenuous.implants.containers.ContainerInfoFileSystemObject;
 import com.zer0s2m.creeptenuous.implants.db.models.DeletedObjectStatistic;
 import com.zer0s2m.creeptenuous.implants.db.repository.DeletedObjectStatisticRepository;
@@ -90,6 +91,26 @@ public class ServiceDeletedObjectStatisticImpl implements ServiceDeletedObjectSt
         )));
 
         deletedObjectStatisticRepository.saveAll(deletedObjectStatistics);
+    }
+
+    /**
+     * Get statistics on deleted objects
+     * @return statistics
+     */
+    @Override
+    public List<ContainerDeletedObjectStatistic> getStatistics() {
+        List<ContainerDeletedObjectStatistic> statistics = new ArrayList<>();
+
+        deletedObjectStatisticRepository.findAll()
+                .forEach(statistic -> statistics.add(new ContainerDeletedObjectStatistic(
+                        statistic.getUserLogin(),
+                        statistic.getSystemName(),
+                        statistic.getSystemPath(),
+                        statistic.getTypeObject(),
+                        statistic.getCreatedAt()
+                )));
+
+        return statistics;
     }
 
 }

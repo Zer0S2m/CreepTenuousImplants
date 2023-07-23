@@ -2,6 +2,7 @@ package com.zer0s2m.creeptenuous.implants.services;
 
 import com.zer0s2m.creeptenuous.implants.CreepTenuousImplantsApplication;
 import com.zer0s2m.creeptenuous.implants.containers.ContainerInfoFileSystemObject;
+import com.zer0s2m.creeptenuous.implants.db.models.DeletedObjectStatistic;
 import com.zer0s2m.creeptenuous.implants.db.repository.DeletedObjectStatisticRepository;
 import com.zer0s2m.creeptenuous.implants.enums.TypeObjectDeleted;
 import com.zer0s2m.creeptenuous.implants.services.impl.ServiceDeletedObjectStatisticImpl;
@@ -30,6 +31,9 @@ public class ServiceDeletedObjectStatisticTests {
 
     @Autowired
     private ServiceDeletedObjectStatistic serviceDeletedObjectStatistic;
+
+    @Autowired
+    private DeletedObjectStatisticRepository deletedObjectStatisticRepository;
 
     @Test
     @Rollback
@@ -74,6 +78,15 @@ public class ServiceDeletedObjectStatisticTests {
 
         Assertions.assertDoesNotThrow(
                 () -> serviceDeletedObjectStatistic.createDeletedObjectStatisticFileStorage(data));
+    }
+
+    @Test
+    @Rollback
+    public void getStatistics_success() {
+        deletedObjectStatisticRepository.save(new DeletedObjectStatistic(
+                "systemName", "systemPath", TypeObjectDeleted.DIRECTORY));
+
+        Assertions.assertTrue(serviceDeletedObjectStatistic.getStatistics().size() >= 1);
     }
 
 }

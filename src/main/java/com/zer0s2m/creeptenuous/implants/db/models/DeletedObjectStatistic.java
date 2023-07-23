@@ -56,4 +56,24 @@ public class DeletedObjectStatistic {
         this.typeObject = typeObject;
     }
 
+    public String getSystemName() {
+        return systemName;
+    }
+
+    public String getSystemPath() {
+        return systemPath;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public TypeObjectDeleted getTypeObject() {
+        return typeObject;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
 }
