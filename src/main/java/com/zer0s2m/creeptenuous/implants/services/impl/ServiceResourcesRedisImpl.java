@@ -1,10 +1,7 @@
 package com.zer0s2m.creeptenuous.implants.services.impl;
 
 import com.zer0s2m.creeptenuous.implants.containers.ContainerInfoFileSystemObject;
-import com.zer0s2m.creeptenuous.implants.redis.models.DirectoryRedis;
-import com.zer0s2m.creeptenuous.implants.redis.models.FileRedis;
-import com.zer0s2m.creeptenuous.implants.redis.models.JwtRedis;
-import com.zer0s2m.creeptenuous.implants.redis.models.RightsUserRedis;
+import com.zer0s2m.creeptenuous.implants.redis.models.*;
 import com.zer0s2m.creeptenuous.implants.redis.repository.DirectoryRedisRepository;
 import com.zer0s2m.creeptenuous.implants.redis.repository.FileRedisRepository;
 import com.zer0s2m.creeptenuous.implants.redis.repository.JwtRedisRepository;
@@ -51,6 +48,7 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
      * @param ids must not be {@literal null} nor contain any {@literal null} values.
      * @return information directories
      */
+    @Override
     public List<DirectoryRedis> getResourceDirectoryRedis(List<String> ids) {
         return getResources(directoryRedisRepository.findAllById(ids));
     }
@@ -60,6 +58,7 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
      * @param ids must not be {@literal null} nor contain any {@literal null} values.
      * @return information files
      */
+    @Override
     public List<FileRedis> getResourceFileRedis(List<String> ids) {
         return getResources(fileRedisRepository.findAllById(ids));
     }
@@ -80,6 +79,7 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
      * Get all information about directories
      * @return information directories
      */
+    @Override
     public List<DirectoryRedis> getResourceDirectoryRedis() {
         return getResources(directoryRedisRepository.findAll());
     }
@@ -88,6 +88,7 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
      * Get all information about files
      * @return information files
      */
+    @Override
     public List<FileRedis> getResourceFileRedis() {
         return getResources(fileRedisRepository.findAll());
     }
@@ -99,6 +100,7 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
      * @param attached information about file system objects
      * @return filtered file system objects
      */
+    @Override
     public List<ContainerInfoFileSystemObject> getUnusedObjectFileSystem(
             List<DirectoryRedis> entitiesDirectories, List<FileRedis> entitiesFiles,
             @NotNull List<ContainerInfoFileSystemObject> attached) {
@@ -133,6 +135,7 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
      * @param attached name of file system objects
      * @return filtered ids on object redis
      */
+    @Override
     public List<String> getUnusedObjectRedis(
             @NotNull List<DirectoryRedis> entitiesDirectories, @NotNull List<FileRedis> entitiesFiles,
             List<String> attached) {
@@ -157,9 +160,50 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
     }
 
     /**
+     * Get unused redis objects (Directories) by filtering from object file system
+     * @param entitiesDirectories must not be {@literal null} nor must it contain {@literal null}.
+     * @param attached name of file system objects
+     * @return filtered ids on object redis
+     */
+    @Override
+    public List<String> getUnusedObjectRedisDirectory(
+            @NotNull List<DirectoryRedis> entitiesDirectories, List<String> attached) {
+        return getUnusedObjectBaseRedis(entitiesDirectories, attached);
+    }
+
+    /**
+     * Get unused redis objects (Files) by filtering from object file system
+     * @param entitiesFiles must not be {@literal null} nor must it contain {@literal null}.
+     * @param attached name of file system objects
+     * @return filtered ids on object redis
+     */
+    @Override
+    public List<String> getUnusedObjectRedisFile(
+            List<FileRedis> entitiesFiles, List<String> attached) {
+        return getUnusedObjectBaseRedis(entitiesFiles, attached);
+    }
+
+    @NotNull
+    static private List<String> getUnusedObjectBaseRedis(
+            @NotNull List<? extends BaseRedis> entities, List<String> attached) {
+        List<String> ids = new ArrayList<>();
+
+        entities.forEach(entity -> {
+            if (entity != null) {
+                if (!attached.contains(entity.getSystemName())) {
+                    ids.add(entity.getSystemName());
+                }
+            }
+        });
+
+        return ids;
+    }
+
+    /**
      * Get all information about user rights
      * @return user rights
      */
+    @Override
     public List<RightsUserRedis> getResourceRightsUserRedis() {
         return getResources(rightsUserRedisRepository.findAll());
     }
@@ -169,6 +213,7 @@ public class ServiceResourcesRedisImpl implements ServiceResourcesRedis {
      * @param rightsUserRedis must not be {@literal null} nor must it contain {@literal null}.
      * @return filtered ids on object redis
      */
+    @Override
     public List<String> getUnusedRightsUser(@NotNull List<RightsUserRedis> rightsUserRedis) {
         final List<String> ids = new ArrayList<>();
 
