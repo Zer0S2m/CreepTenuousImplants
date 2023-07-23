@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.RedisHash;
  */
 @Data
 @RedisHash("files")
-public class FileRedis {
+public class FileRedis implements BaseRedis {
 
     @Id
     @Column(name = "systemNameFile")
